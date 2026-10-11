@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thư tri ân dành cho cô giáo</title>
+    <style>
+      :root {
+        --bg-1: #fff1f2;
+        --bg-2: #fdf2f8;
+        --bg-3: #fff7ed;
+        --rose: #e11d48;
+        --rose-dark: #be123c;
+        --rose-soft: #ffe4e6;
+        --amber: #f59e0b;
+        --text: #1e293b;
+        --muted: #475569;
+        --paper: #fffdf8;
+        --white: #ffffff;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        font-family: "Times New Roman", Times, serif;
+        background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+        color: var(--text);
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 16px;
+      }
+
+      .page {
+        position: relative;
+        width: min(100%, 1100px);
+        min-height: 88vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .orb.one { width: 320px; height: 320px; background: rgba(251, 113, 133, 0.25); left: -80px; top: -80px; }
+      .orb.two { width: 380px; height: 380px; background: rgba(252, 211, 77, 0.25); right: -120px; bottom: -120px; }
+
+      .screen {
+        position: relative;
+        width: 100%;
+        display: none;
+      }
+
+      .screen.active {
+        display: block;
+      }
+
+      .center-panel {
+        width: min(100%, 760px);
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .gift-icon {
+        width: 112px;
+        height: 112px;
+        margin: 0 auto 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 20px 40px rgba(244, 114, 182, 0.14);
+        border: 1px solid rgba(251, 113, 133, 0.2);
+      }
+
+      .gift-icon svg {
+        width: 58px;
+        height: 58px;
+        stroke: var(--rose);
+        fill: none;
+        stroke-width: 2;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        font-size: 1.05rem;
+        letter-spacing: 0.22em;
+        color: var(--rose);
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.6rem, 5vw, 5rem);
+        line-height: 1.08;
+        color: #0f172a;
+      }
+
+      .subtext {
+        margin: 18px auto 28px;
+        max-width: 640px;
+        font-size: clamp(1.1rem, 2vw, 1.5rem);
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        appearance: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 18px 32px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .primary-btn {
+        background: var(--rose);
+        color: var(--white);
+        box-shadow: 0 12px 24px rgba(225, 29, 72, 0.28);
+      }
+
+      .primary-btn:hover,
+      .secondary-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .primary-btn svg,
+      .secondary-btn svg {
+        width: 18px;
+        height: 18px;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(251, 113, 133, 0.14);
+        border-radius: 32px;
+        box-shadow: 0 30px 70px rgba(15, 23, 42, 0.12);
+        overflow: hidden;
+        backdrop-filter: blur(8px);
+      }
+
+      .card-body {
+        padding: 30px 26px;
+      }
+
+      .video-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .video-header .title-wrap {
+        flex: 1;
+        text-align: left;
+      }
+
+      .video-label {
+        margin: 0;
+        font-size: 0.8rem;
+        letter-spacing: 0.18em;
+        font-weight: 800;
+        color: var(--rose);
+      }
+
+      .video-title {
+        margin: 8px 0 0;
+        font-size: clamp(1.8rem, 3vw, 2.4rem);
+      }
+
+      .sparkle {
+        width: 42px;
+        height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--amber);
+      }
+
+      .sparkle svg {
+        width: 28px;
+        height: 28px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+      }
+
+      .video-box {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        background: #0f172a;
+        min-height: 280px;
+      }
+
+      video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: contain;
+        background: #020617;
+      }
+
+      .play-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.2);
+        border: 0;
+        cursor: pointer;
+      }
+
+      .play-button {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 14px 28px rgba(15, 23, 42, 0.24);
+      }
+
+      .play-button svg {
+        width: 36px;
+        height: 36px;
+        fill: var(--rose);
+        margin-left: 4px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .video-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        color: var(--muted);
+      }
+
+      .audio-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .audio-note svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+      }
+
+      .secondary-btn {
+        background: transparent;
+        color: var(--rose-dark);
+        border: 1px solid rgba(225, 29, 72, 0.16);
+      }
+
+      .letter-card {
+        background: var(--paper);
+      }
+
+      .letter-content {
+        padding: 36px 28px 26px;
+      }
+
+      .heart-badge {
+        width: 62px;
+        height: 62px;
+        margin: 0 auto 18px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: #ffe4e6;
+      }
+
+      .heart-badge svg {
+        width: 30px;
+        height: 30px;
+        stroke: var(--rose);
+        fill: var(--rose);
+      }
+
+      .letter-title {
+        margin: 0;
+        text-align: center;
+        font-size: clamp(1.9rem, 4vw, 3.3rem);
+        line-height: 1.2;
+      }
+
+      .letter-body {
+        margin-top: 32px;
+        text-align: justify;
+        font-size: clamp(1.05rem, 2vw, 1.1rem);
+        line-height: 1.9;
+        color: var(--text);
+      }
+
+      .letter-body p {
+        margin: 0 0 20px;
+      }
+
+      .letter-body .bold {
+        font-weight: 700;
+      }
+
+      .signature {
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid rgba(251, 113, 133, 0.2);
+        text-align: right;
+      }
+
+      .signature .thanks {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--rose-dark);
+      }
+
+      .signature .name {
+        margin: 12px 0 0;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #0f172a;
+      }
+
+      .signature .student {
+        margin: 4px 0 0;
+        color: var(--muted);
+      }
+
+      @media (max-width: 640px) {
+        .page { min-height: auto; }
+        .card-body { padding: 22px 18px; }
+        .video-header { align-items: flex-start; }
+        .video-footer { align-items: stretch; }
+        .video-footer > * { width: 100%; }
+        .secondary-btn { justify-content: center; }
+        .letter-content { padding: 28px 18px 18px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="orb one"></div>
+      <div class="orb two"></div>
+
+      <section id="envelope-screen" class="screen active">
+        <div class="center-panel">
+          <div class="gift-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 8.5h16v11H4zM12 8.5v11M4 12h16M7 8.5V6.8A2.8 2.8 0 0 1 9.8 4h4.4A2.8 2.8 0 0 1 17 6.8v1.7"/>
+            </svg>
+          </div>
+
+          <p class="eyebrow">Món quà nhỏ nhân ngày 20/10</p>
+          <h1>Kính tặng Quý Cô giáo UTT</h1>
+          <p class="subtext">Một lời tri ân chân thành được gửi đến những người lái đò tận tụy.</p>
+          <button id="openGiftBtn" class="primary-btn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8.5-4.35-9.8-9.47C1.2 8.51 3.07 4 7.25 4c2.22 0 3.53 1.13 4.75 2.62C13.22 5.13 14.53 4 16.75 4c4.18 0 6.05 4.51 5.05 7.53C20.5 16.65 12 21 12 21z" fill="currentColor" stroke="none"/></svg>
+            Mở món quà
+          </button>
+        </div>
+      </section>
+
+      <section id="video-screen" class="screen">
+        <div class="card" style="max-width: 900px; margin: 0 auto;">
+          <div class="card-body">
+            <div class="video-header">
+              <div class="title-wrap">
+                <p class="video-label">Thước phim tri ân</p>
+                <h2 class="video-title">Dành tặng các cô giáo</h2>
+              </div>
+              <div class="sparkle" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2z" /></svg>
+              </div>
+            </div>
+
+            <div class="video-box">
+    <video id="giftVideo" controls playsinline>
+        <source src="./video_em.mp4" type="video/mp4" />
+    </video>
+
+    <button
+        id="playOverlay"
+        class="play-overlay"
+        type="button"
+        aria-label="Phát video"
+    >
+        <span class="play-button">
+            <svg viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"></path>
+            </svg>
+        </span>
+    </button>
+</div>
+
+            <div class="video-footer">
+              <span class="audio-note">
+                <svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5zM15.5 8.5a5 5 0 010 7M18.5 6a9 9 0 010 12"/></svg>
+                Hãy bật âm thanh để cảm nhận trọn vẹn
+              </span>
+
+              <button id="skipToLetterBtn" class="secondary-btn" type="button">Xem thư ngay</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="letter-screen" class="screen">
+        <div class="card letter-card" style="max-width: 920px; margin: 0 auto;">
+          <div class="letter-content">
+            <div class="heart-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8.5-4.35-9.8-9.47C1.2 8.51 3.07 4 7.25 4c2.22 0 3.53 1.13 4.75 2.62C13.22 5.13 14.53 4 16.75 4c4.18 0 6.05 4.51 5.05 7.53C20.5 16.65 12 21 12 21z"/></svg>
+            </div>
+
+            <p class="eyebrow" style="text-align:center; letter-spacing:0.2em;">Chúc mừng ngày phụ nữ Việt Nam 20/10</p>
+            <h2 class="letter-title">Lời tri ân gửi tới Quý Cô giáo</h2>
+
+            <article class="letter-body">
+              <p class="bold">Kính gửi Quý Cô giáo, Giảng viên Trường Đại học Công nghệ Giao thông Vận tải!</p>
+              <p>Nhân ngày Phụ nữ Việt Nam 20/10, em xin gửi tới Quý Cô giáo những lời chúc ấm áp, chân thành và sâu sắc nhất!</p>
+              <p>Trong suốt chặng đường học tập tại UTT, các cô không chỉ là những người truyền dạy tri thức chuyên ngành mà còn là những “người lái đò” tận tụy, giúp sinh viên chúng em định hướng từng bước đi trên con đường tương lai.</p>
+              <p>Nếu hành trình tri thức của sinh viên giống như một chuyến hàng vươn ra biển lớn, thì các cô giáo chính là những “thuyền trưởng” tận tâm, giúp chúng em vượt qua khó khăn, chuẩn bị đầy đủ hành trang tri thức và kỹ năng để vững vàng trước những thử thách trên đường đời.</p>
+              <p>Nhân ngày đặc biệt này, em xin kính chúc các cô luôn dồi dào sức khỏe để tiếp tục vững tay lái trên chuyến tàu tri thức; luôn đong đầy hạnh phúc, niềm vui trong cuộc sống và thành công trong sự nghiệp trồng người. Kính chúc các cô mãi giữ ngọn lửa nhiệt huyết, sự dịu dàng và tâm huyết dành cho các thế hệ sinh viên UTT.</p>
+              <p>Cảm ơn các cô đã luôn kiên nhẫn, yêu thương và đồng hành cùng chúng em!</p>
+            </article>
+
+            <div class="signature">
+              <p class="thanks">Trân trọng và kính chúc!</p>
+              <p class="name">Nguyễn Thị Trâm Anh</p>
+              <p class="student">Sinh viên lớp 76DCHQ21</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const openGiftBtn = document.getElementById('openGiftBtn');
+      const envelopeScreen = document.getElementById('envelope-screen');
+      const videoScreen = document.getElementById('video-screen');
+      const letterScreen = document.getElementById('letter-screen');
+      const skipToLetterBtn = document.getElementById('skipToLetterBtn');
+      const playOverlay = document.getElementById('playOverlay');
+      const giftVideo = document.getElementById('giftVideo');
+      giftVideo.preload = 'auto';
+
+      function showScreen(name) {
+        envelopeScreen.classList.toggle('active', name === 'envelope');
+        videoScreen.classList.toggle('active', name === 'video');
+        letterScreen.classList.toggle('active', name === 'letter');
+      }
+
+      openGiftBtn.addEventListener('click', function () {
+        giftVideo.src = 'video_em.mp4';
+        giftVideo.load();
+        showScreen('video');
+      });
+
+      skipToLetterBtn.addEventListener('click', function () {
+        showScreen('letter');
+      });
+
+      async function playVideo() {
+        try {
+          await giftVideo.play();
+          playOverlay.classList.add('hidden');
+        } catch (error) {
+          playOverlay.classList.remove('hidden');
+        }
+      }
+
+      playOverlay.addEventListener('click', playVideo);
+
+      giftVideo.addEventListener('play', function () {
+        playOverlay.classList.add('hidden');
+      });
+
+      giftVideo.addEventListener('pause', function () {
+        if (!giftVideo.ended) {
+          playOverlay.classList.remove('hidden');
+        }
+      });
+
+      giftVideo.addEventListener('ended', function () {
+        showScreen('letter');
+      });
+    </script>
+  </body>
+</html>
